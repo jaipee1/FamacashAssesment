@@ -1,0 +1,22 @@
+PODS:
+  - FlagKit (2.2)
+  - NVActivityIndicatorView (4.8.0):
+    - NVActivityIndicatorView/Presenter (= 4.8.0)
+  - NVActivityIndicatorView/Presenter (4.8.0)
+
+DEPENDENCIES:
+  - FlagKit
+  - NVActivityIndicatorView (~> 4.0)
+
+SPEC REPOS:
+  trunk:
+    - FlagKit
+    - NVActivityIndicatorView
+
+SPEC CHECKSUMS:
+  FlagKit: eca7dc89064b0c986302ba9acefad1bf80a435b1
+  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+
+PODFILE CHECKSUM: 31baf8ee2c99ca81f2a90db6a7396e01c3f6aa93
+
+COCOAPODS: 1.9.3
