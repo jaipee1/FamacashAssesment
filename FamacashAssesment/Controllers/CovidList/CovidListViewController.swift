@@ -22,13 +22,17 @@ class CovidListViewController: ViewController {
         }
     }
     
+    @IBOutlet private weak var searchBar: UISearchBar!
+    
     private var sectionDataSource: [[GlobalType]] = []
+    private var filterSectionDataSource: [[GlobalType]] = []
+    
     
     // MARK: - Controller Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        searchBar.delegate = self
         getSummary()
     }
     
@@ -68,7 +72,7 @@ class CovidListViewController: ViewController {
                 if let allCountries = summary.countries {
                     self.sectionDataSource.append(allCountries)
                 }
-                
+                self.filterSectionDataSource = self.sectionDataSource
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -91,12 +95,12 @@ class CovidListViewController: ViewController {
 extension CovidListViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sectionDataSource.count
+        return filterSectionDataSource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return sectionDataSource[section].count
+        return filterSectionDataSource[section].count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -104,13 +108,13 @@ extension CovidListViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CovidDetailCollectionViewCell.self), for: indexPath) as! CovidDetailCollectionViewCell
             cell.layer.shouldRasterize = true;
             cell.layer.rasterizationScale = UIScreen.main.scale
-            cell.configureCellWith(sectionDataSource[indexPath.section][indexPath.row])
+            cell.configureCellWith(filterSectionDataSource[indexPath.section][indexPath.row])
             return cell
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CovidCountryDetailCollectionViewCell.self), for: indexPath) as! CovidCountryDetailCollectionViewCell
             cell.layer.shouldRasterize = true;
             cell.layer.rasterizationScale = UIScreen.main.scale
-            cell.configureCellWith(sectionDataSource[indexPath.section][indexPath.row])
+            cell.configureCellWith(filterSectionDataSource[indexPath.section][indexPath.row])
             return cell
         }
     }
@@ -130,5 +134,38 @@ extension CovidListViewController: UICollectionViewDelegate, UICollectionViewDel
             }
             return CGSize(width: self.collectionView.frame.size.width - 16, height: 220)
         }
+    }
+}
+
+
+extension CovidListViewController: UISearchBarDelegate{
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.filterSectionDataSource.removeAll()
+        if searchText.isEmpty {
+            self.filterSectionDataSource = self.sectionDataSource
+        }else {
+            if let global = sectionDataSource.first {
+                self.filterSectionDataSource.append(global)
+            }
+            
+            let filter = self.sectionDataSource.last?.filter({ (object) -> Bool in
+                if let countryObj = object as? Country, let country = countryObj.country, country.contains(searchText) {
+                    return true
+                }
+                
+                return false
+            })
+            self.filterSectionDataSource.append(filter!)
+        }
+        
+        DispatchQueue.main.async {
+            if self.filterSectionDataSource.count > 1 {
+                let indexSet = IndexSet(integer: 1)
+                self.collectionView.reloadSections(indexSet)
+            }
+        }
+        
     }
 }

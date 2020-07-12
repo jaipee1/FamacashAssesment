@@ -19,8 +19,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="vct-5X-pgn">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
+                                    <searchBar contentMode="redraw" barStyle="black" placeholder="Search Country" translatesAutoresizingMaskIntoConstraints="NO" id="xAu-VT-wUH">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+                                        <color key="barTintColor" red="0.20000000000000001" green="0.0" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="45Q-26-SL5">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <rect key="frame" x="0.0" y="56" width="320" height="512"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="dg4-hS-4XZ">
                                             <size key="itemSize" width="128" height="128"/>
@@ -54,6 +59,7 @@
                     <navigationItem key="navigationItem" title="Covid Summary" id="QGW-cg-ULh"/>
                     <connections>
                         <outlet property="collectionView" destination="45Q-26-SL5" id="LSM-4e-7wK"/>
+                        <outlet property="searchBar" destination="xAu-VT-wUH" id="6jl-tn-MCh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
